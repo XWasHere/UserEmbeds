@@ -14,7 +14,7 @@ function printIf(exp, ...data) {
 };
 
 function debugPrint(...data) {
-    printIf((DEBUG?.value == true) || false, ...data);
+    printIf((DEBUG == true) || false, ...data);
     return
 };
 

@@ -8,7 +8,7 @@ var embedl = [];
 
 endpoint.get('/api/new', (req, res) => {
     let n = new embed();
-    n.properties = JSON.parse(req.body);
+    n.properties = req.json
     embedl.push(n);
     res.send(`{"id":${embedl.length-1}}`);
 });
