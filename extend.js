@@ -90,11 +90,12 @@ function ICHideEditor() {
 
 function ICSaveEmbed() {
     ICEmbedSend = {"type": "rich", "title": ""}
-    if (titleInput.textContent) {
-        ICEmbedSend.title = titleInput.textContent;
+    if (titleInput.value) {
+        ICEmbedSend.title = titleInput.value;
     }
-    let packet = new Request()
-     = `https://discord.com/api/v8/channels/${channelIdInput.textContent}/messages`
+    let packet = new Request(`https://discord.com/api/v8/channels/${channelIdInput.value}/messages`)
+    res = fetch(packet)
+    console.log(res)
     ICHideEditor()
 }
 //#endregion
