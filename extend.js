@@ -1,3 +1,22 @@
+var sfinc = 0
+
+function makeSnowflake() {
+    sf = new Date();
+    sf = Number(sf) - 1420070400000;
+    sf = sf.toString(2)
+    if (sf.length < 42) {
+        while (sf.length < 42) {
+            sf = "0" + sf
+        }
+    }
+    sf += "00001"
+    sf += "00000"
+    sf += "000000000000"
+    sf = parseInt(sf, 2)
+    return sf
+}
+makeSnowflake()
+
 function forceExit() {
     let a = 0/0; // trigger error
     a = 9999999999999999999999999999999999999999999999999999999 //try to cause overflow
@@ -20,6 +39,7 @@ function getChannelID() {
 var layer
 var frroot
 var fr
+var titleInput
 var savebtns
 var confirmBtn
 var cancelBtn
@@ -86,14 +106,14 @@ function ICShowEditor() {
     layer = document.createElement('div')
     fr = document.createElement('div')
     frroot = document.createElement('div')
-    channelIdInput = document.createElement('input')
+    titleInput = document.createElement('input')
     savebtns = document.createElement('div')
     confirmBtn = document.createElement('button')
     cancelBtn = document.createElement('button')
     container.appendChild(layer)
     layer.appendChild(fr)
     fr.appendChild(frroot)
-    frroot.appendChild(channelIdInput)
+    frroot.appendChild(titleInput)
     frroot.appendChild(savebtns)
     savebtns.appendChild(confirmBtn)
     savebtns.appendChild(cancelBtn)
@@ -122,7 +142,7 @@ function ICSaveEmbed() {
         ICEmbedSend.title = titleInput.value;
     }
     // packet.headers.append('authorization', token)
-    fetch(`https://discord.com/api/v8/channels/${getChannelID}/messages`, {
+    fetch(`https://discord.com/api/v8/channels/${getChannelID()}/messages`, {
         method: "POST",
         headers: {
 
