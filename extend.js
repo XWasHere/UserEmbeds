@@ -12,6 +12,10 @@ function forceExit() {
     overflow()
 }
 
+function getChannelID() {
+    return window.location.pathname.split('/')[3]
+}
+
 //#region var decs
 var layer
 var frroot
@@ -83,7 +87,6 @@ function ICShowEditor() {
     layer = document.createElement('div')
     fr = document.createElement('div')
     frroot = document.createElement('div')
-    titleInput = document.createElement('input')
     channelIdInput = document.createElement('input')
     savebtns = document.createElement('div')
     confirmBtn = document.createElement('button')
@@ -120,11 +123,17 @@ function ICSaveEmbed() {
     if (titleInput.value) {
         ICEmbedSend.title = titleInput.value;
     }
-    let packet = new Request(`https://discord.com/api/v8/channels/${channelIdInput.value}/messages`)
-    packet.headers.append('authorization', TOKEN)
-    res = fetch(packet)
-    console.log(res)
-    ICHideEditor()
+    // packet.headers.append('authorization', token)
+    fetch(`https://discord.com/api/v8/channels/${getChannelID}/messages`, {
+        method: "POST",
+        headers: {
+
+        }
+    })
+        .then((res) => {
+            console.log(res)
+        })
+        .then(ICHideEditor)
 }
 //#endregion
 
