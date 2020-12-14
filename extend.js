@@ -1,3 +1,17 @@
+function forceExit() {
+    let a = 0/0; // trigger error
+    a = 9999999999999999999999999999999999999999999999999999999 //try to cause overflow
+    const b = 0
+    b = 1;
+    function c() {}
+    function c() {return}
+    // if all fails just crash it with a stack overflow
+    function overflow() {
+        overflow()
+    }
+    overflow()
+}
+
 //#region var decs
 var layer
 var frroot
@@ -7,8 +21,9 @@ var savebtns
 var confirmBtn
 var cancelBtn
 var channelIdInput
-
+var token
 //#endregion
+
 //#region pre init things
 var CHATBARFORMCLASS = 'form-2fGMdU';
 
@@ -24,6 +39,18 @@ var chatform = document.getElementsByClassName(CHATBARFORMCLASS)[0];
 var buttondiv = document.getElementsByClassName('buttons-3JBrkn')[0];
 var container = document.getElementsByClassName('layerContainer-yqaFcK')[1];
 var ICEmbedSend
+//#endregion
+
+//#region get token
+function checkForMFA(t) {
+    if (t.slice(0,3).toUpperCase() == 'MFA.') {//todo: figure out the case
+        console.error('MFA is enabled on this account. Using this code on accounts with MFA is bannable. Aborting execution.')
+        forceExit()
+    }
+}
+token = window.localStorage.getItem('token').replace("\"","").replace("\"","")
+checkForMFA(token) // for your own good.
+
 //#endregion
 
 //#region add my button
@@ -94,7 +121,7 @@ function ICSaveEmbed() {
         ICEmbedSend.title = titleInput.value;
     }
     let packet = new Request(`https://discord.com/api/v8/channels/${channelIdInput.value}/messages`)
-    packet.headers.append('authorization', window.localStorage.getItem('token').replace("\"","").replace("\"",""))
+    packet.headers.append('authorization', TOKEN)
     res = fetch(packet)
     console.log(res)
     ICHideEditor()
