@@ -94,6 +94,7 @@ function ICSaveEmbed() {
         ICEmbedSend.title = titleInput.value;
     }
     let packet = new Request(`https://discord.com/api/v8/channels/${channelIdInput.value}/messages`)
+    packet.headers.append('authorization', localStorage.getItem('token'))
     res = fetch(packet)
     console.log(res)
     ICHideEditor()
