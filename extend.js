@@ -20,7 +20,6 @@ function getChannelID() {
 var layer
 var frroot
 var fr
-var titleInput
 var savebtns
 var confirmBtn
 var cancelBtn
@@ -95,7 +94,6 @@ function ICShowEditor() {
     layer.appendChild(fr)
     fr.appendChild(frroot)
     frroot.appendChild(channelIdInput)
-    frroot.appendChild(titleInput)
     frroot.appendChild(savebtns)
     savebtns.appendChild(confirmBtn)
     savebtns.appendChild(cancelBtn)
