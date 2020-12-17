@@ -43,7 +43,7 @@ class EmbedEditor {
 
     create() {
         this.layer = document.createElement('div');
-        this.fr = document.createElement('div');
+        this.shaker = document.createElement('div');
         this.focuslock = document.createElement('div');
         this.frroot = document.createElement('div');
         this.frcontent = document.createElement('div');
@@ -73,8 +73,8 @@ class EmbedEditor {
         this.resetButton = document.createElement('button');
 
         this.parent.appendChild(this.layer);
-        this.layer.appendChild(this.fr);
-        this.fr.appendChild(this.focuslock);
+        this.layer.appendChild(this.shaker);
+        this.shaker.appendChild(this.focuslock);
         this.focuslock.appendChild(this.frroot);
         this.frroot.appendChild(this.frcontent);
         this.frroot.appendChild(this.footer);
@@ -101,7 +101,7 @@ class EmbedEditor {
         this.footer.appendChild(this.resetButton);
 
         this.layer.setAttribute('class', 'layer-2KE1M9');
-        this.fr.setAttribute('class', 'shaker-35cz7E');
+        this.shaker.setAttribute('class', 'shaker-35cz7E');
         this.focuslock.setAttribute('class', 'focusLock-Ns3yie');
         this.frroot.setAttribute('class','root-1ANs48 root-1gCeng small-3iVZYw fullscreenOnMobile-1bD22y');
         
@@ -135,17 +135,33 @@ class EmbedEditor {
         packet.content = document.getElementsByClassName('slateTextArea-1Mkdgw')[0].firstChild.firstChild.firstChild.firstChild.textContent
         packet.embed.nonce = makeSnowflake().toString();
         fetch(`https://discord.com/api/v8/channels/${getChannelID()}/messages`, {
-            method: "POST",
-            headers: {
-                'content-type': 'application/json',
-                authorization: token
-            },
-            body: JSON.stringify(packet)
+                method: "POST",
+                headers: {
+                    'content-type': 'application/json',
+                    authorization: token
+                },
+                body: JSON.stringify(packet)
             })
             .then((res) => {
-                console.log(res)
+                console.log(res);
+            }, (err) => {
+                console.error(err)
+                let shaker = this.shaker; //pass it on
+                let stackrecs = 0;
+                let maxrecs = 10;
+                let maxdisplacement = 10;
+                let mindisplacement = 1;
+                let extrastyle = ''
+                function doShaker() {
+                    if (stackrecs == maxrecs) {
+                        setTimeout(() => {
+                            stackrecs++;
+                            shaker.style = `${extrastyle} transform: transform3d(${Math.random*10},${Math.random*10},${Math.random*10})`
+                            doShaker()
+                        })
+                    }
+                }
             })
-            .then(this.remove);
         this.remove();
         return;
     }
