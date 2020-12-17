@@ -1,0 +1,2 @@
+[submodule ".\\API"]
+	url = https://github.com/DC-UserAPI/UserAPI.git
