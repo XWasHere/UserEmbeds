@@ -1,5 +1,7 @@
 "use strict";
 
+//const api = require('../UserAPI/API/index') || import('https://gitcdn.link/repo/DC-UserAPI/UserAPI/main/API/index.js');
+
 class EmbedButton {
     constructor(parent) {
         this.parent = parent;
@@ -120,6 +122,7 @@ class EmbedEditor {
     }
 
     send() {
+
         let packet = {
             content: "",
             tts: false,
@@ -129,6 +132,7 @@ class EmbedEditor {
         if (this.descBox.value) packet.embed.description = this.descBox.value;
         if (this.urlBox.value) packet.embed.url = this.urlBox.value;
         if (this.colorBox.value) packet.embed.color = this.colorBox.value;
+        packet.content = document.getElementsByClassName('slateTextArea-1Mkdgw')[0].firstChild.firstChild.firstChild.firstChild.textContent
         packet.embed.nonce = makeSnowflake().toString();
         fetch(`https://discord.com/api/v8/channels/${getChannelID()}/messages`, {
             method: "POST",
