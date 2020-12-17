@@ -31,31 +31,6 @@ class EmbedButton {
     }
 }
 
-class BetterEvent {
-    constructor() {
-        this.listeners = []
-    }
-
-    addListener(Handler) {
-        n = this.listeners.push(Handler)
-        l = {
-            id: n,
-            disconnect: this.removeListener.bind(this, n)
-        }
-        return l
-    }
-
-    removeListener(Listener) {
-        this.listeners.splice(Listener.n, 1)
-    }
-
-    fire() {
-        for (i of this.listeners) {
-            i()
-        }
-    }
-}
-
 class EECheckBox {
     constructor(parent) {
         
@@ -198,60 +173,18 @@ function getChannelID() {
     return window.location.pathname.split('/')[3]
 }
 
-//#region var decs
-var layer
-var frroot
-var fr
-var titleInput
-var savebtns
-var confirmBtn
-var cancelBtn
-var channelIdInput
 var token
-//#endregion
 
-//#region pre init things
 var CHATBARFORMCLASS = 'form-2fGMdU';
 
 var chatform = document.getElementsByClassName(CHATBARFORMCLASS)[0];
 var buttondiv = document.getElementsByClassName('buttons-3JBrkn')[0];
 var container = document.getElementsByClassName('layerContainer-yqaFcK')[1];
 var ICEmbedSend
-//#endregion
 
 token = window.localStorage.getItem('token').replace("\"","").replace("\"","")
 
 var EmbedBtn = new EmbedButton(buttondiv)
 var EmbedEdtr = new EmbedEditor(container)
 
-function ICSaveEmbed() {
-    ICEmbedSend = {
-        nonce: makeSnowflake().toString(),
-        content: "",
-        tts: false,
-        embed: {type: "rich"}
-    }
-    if (titleInput.value != "") {
-        ICEmbedSend.title = titleInput.value;
-    }
-    // packet.headers.append('authorization', token)
-    fetch(`https://discord.com/api/v8/channels/${getChannelID()}/messages`, {
-        method: "POST",
-        headers: {
-            'content-type': 'application/json',
-            authorization: token
-        },
-        body: JSON.stringify(ICEmbedSend)
-    })
-        .then((res) => {
-            console.log(res)
-        })
-        .then(ICHideEditor)
-}
-//#endregion
-
-//#region event handling
-
 EmbedBtn.button.addEventListener('click', EmbedEdtr.create.bind(EmbedEdtr));
-
-//#endregion
